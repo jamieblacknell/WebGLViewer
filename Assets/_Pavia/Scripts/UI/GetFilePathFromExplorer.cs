@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
 using SFB;
+using System.Runtime.InteropServices;
 
 public class GetFilePathFromExplorer : MonoBehaviour
 {
@@ -14,7 +15,7 @@ public class GetFilePathFromExplorer : MonoBehaviour
     private static extern void UploadFile(string gameObjectName, string methodName, string filter, bool multiple);
 
     public void OpenExplorer() {
-        UploadFile(gameObject.name, "OnFileUpload", ".png, .jpg", false);
+        UploadFile(gameObject.name, "OnFileUpload", ".glb", false);
     }
 
     // Called from browser
@@ -33,7 +34,11 @@ public class GetFilePathFromExplorer : MonoBehaviour
 
     private IEnumerator GetFile(string path)
     {
+        
+
         string newPath = path.Replace("\\", "/");
+
+        Debug.Log(newPath);
 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(newPath))
         {
