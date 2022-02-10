@@ -1,21 +1,35 @@
 using System.Collections;
 using UnityEngine;
-using AnotherFileBrowser.Windows;
 using UnityEngine.Networking;
+using SFB;
 
 public class GetFilePathFromExplorer : MonoBehaviour
 {
+
+#if UNITY_WEBGL && !UNITY_EDITOR
+
+    // WebGL
+
+    [DllImport("__Internal")]
+    private static extern void UploadFile(string gameObjectName, string methodName, string filter, bool multiple);
+
+    public void OpenExplorer() {
+        UploadFile(gameObject.name, "OnFileUpload", ".png, .jpg", false);
+    }
+
+    // Called from browser
+    public void OnFileUpload(string url) {
+        StartCoroutine(GetFile(url));
+    }
+#else
+    
     public void OpenExplorer()
     {
-        var browerPropertes = new BrowserProperties();
-        browerPropertes.filter = "GLB files (*.glb,) | *.glb;";
-        browerPropertes.filterIndex = 0;
-
-        new FileBrowser().OpenFileBrowser(browerPropertes, path =>
-        {
-            StartCoroutine(GetFile(path));
-        });
+        var paths = StandaloneFileBrowser.OpenFilePanel("Open GLB File", "", "glb", false);
+        StartCoroutine(GetFile(paths[0]));
     }
+
+#endif
 
     private IEnumerator GetFile(string path)
     {
@@ -36,6 +50,5 @@ public class GetFilePathFromExplorer : MonoBehaviour
         }
     }
 }
-
 
 
