@@ -11,6 +11,9 @@ namespace Pavia.GTLF
 {
     public class ModelDownloadImport : MonoBehaviour
     {
+        [SerializeField] private string _pcaName;
+
+
         private const string MASTER_URL = "https://pavia-testing-glbs.s3.us-east-2.amazonaws.com/";
         private const string FILE_EXT = ".glb";
 
@@ -18,7 +21,7 @@ namespace Pavia.GTLF
         {
             // Put this as argument: PlayerDataManager.Instance.GetComponent<InitialPlayerFormData>().PcaName
 
-            DownloadAndImportModel("avatar_matt_readyplayerme");
+            DownloadAndImportModel(_pcaName);
         }
 
         public void DownloadAndImportModel(string name)
