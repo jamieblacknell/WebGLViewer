@@ -16,7 +16,9 @@ namespace Pavia.GTLF
 
         private void Start()
         {
-            DownloadAndImportModel(PlayerDataManager.Instance.GetComponent<InitialPlayerFormData>().PcaName);
+            // Put this as argument: PlayerDataManager.Instance.GetComponent<InitialPlayerFormData>().PcaName
+
+            DownloadAndImportModel("avatar_matt_readyplayerme");
         }
 
         public void DownloadAndImportModel(string name)
@@ -59,21 +61,10 @@ namespace Pavia.GTLF
         {
             string path = Application.persistentDataPath + "/" + name + FILE_EXT;
 
-            // FINAL OUTPUT GAMEOBJECT TO DO WHAT YOU WANT WITH
-            GameObject importedGameObject = Importer.LoadFromFile(path);
-
-            SetupLandParcel(importedGameObject);
+            PCAImporter.Instance.ImportPCAGLB(path);
 
         }
-
-        private void SetupLandParcel(GameObject pcaRoot)
-        {
-            pcaRoot.transform.SetParent(this.gameObject.transform);
-            pcaRoot.transform.localPosition = Vector3.zero;
-
-            
-
-        }
+                
     }
 
 }
