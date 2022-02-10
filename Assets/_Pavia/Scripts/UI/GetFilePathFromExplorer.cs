@@ -32,17 +32,14 @@ public class GetFilePathFromExplorer : MonoBehaviour
 
 #endif
 
+
     private IEnumerator GetFile(string path)
     {
-        
-
         string newPath = path.Replace("\\", "/");
-
-        Debug.Log(newPath);
 
         using (UnityWebRequest webRequest = UnityWebRequest.Get(newPath))
         {
-           yield return webRequest.SendWebRequest();
+            yield return webRequest.SendWebRequest();
 
             if (webRequest.result == UnityWebRequest.Result.ConnectionError || webRequest.result == UnityWebRequest.Result.ProtocolError)
             {
